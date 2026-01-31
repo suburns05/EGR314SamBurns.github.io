@@ -8,9 +8,14 @@ My subsystem is the Human Machine Interface (HMI). While this is critical to our
 | **Requirement Description** | **Measure of<br> Threshold** | **Target<br>Measure** |**Stretch<br>Requirement<br>(Y-N)**|
 |-----------------------------| ----------------- | ----------------- | :-----: |
 | Surface mounted, 3.3V switching power regulatore | 3.2 Volts | 3.3 Volts | No |
-| Surface mounted microcontroller | 1 PIC or ESP | 8-bit PIC | No |
-| Wireless Communication | Able to send or receive a Wi-Fi data | Send and receive Wi-Fi Data to MQTT | Yes |
-|*Rest are items your modules needs to support the task you are covering for the team's device.* | --- | --- | **NO** |
+| Surface mounted microcontroller | ESP | 8-bit PIC | No |
+| Wireless Communication | Able to send or receive a Wi-Fi data | Send and receive Wi-Fi Data to MQTT | No |
+| OLED screen | Able to print text on screen | Being able to show real time sensor data | Yes |
+| Button navigation | See response on OLED | Adjust settings in real time and on device | No |
+| Joystick controlls | Motors on the submarine react to joystick movement | Clear demonstation of total movement control through the joysticks | No |
+| On board OLED | Able to print text on screen | Being able to show real time sensor data | Yes |
+| Battery | Device operates throuhg a battery | Utalizing rechargable batteries for easy use | Yes |
+
 
 
 <!-- The objective of this assignment is to start to critically think and break down what your module will be required to do before moving too far forward in the development.
