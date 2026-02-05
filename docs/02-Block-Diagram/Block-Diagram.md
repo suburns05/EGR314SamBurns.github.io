@@ -20,4 +20,4 @@ Key points are:
 
 ![Indivial Block diagram ](image.png)
 
-The PDF download can be found ["here"](Block%20Diagram-314.pdf).
+The PDF download can be found ["here"](diagram.pdf).
