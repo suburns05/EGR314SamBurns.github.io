@@ -18,6 +18,6 @@ Key points are:
 1. Joysticks + Buttons cause updates on the OLED display and controllers the project
 
 
-![Indivial Block diagram ](Block%20Diagram-314.png)
+![Indivial Block diagram ](image.png)
 
 The PDF download can be found ["here"](Block%20Diagram-314.pdf).
