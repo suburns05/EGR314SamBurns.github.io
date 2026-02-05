@@ -6,14 +6,16 @@ tags:
 ---
 
 ## Overview
-This needs to be updated with a brief purpose for having the block diagram.
-Things to mention are:
-* Power: 3.3 v
-* This is the HMI (Human Machine Interface) for the main prototype
-* Wirelessly connected to the project via the Control board
-* Power source: Battery or Barraljack(backup)
-* Upstream and Downstream headers act as backup connections
-* Joysticks + Buttons cause updates on the OLED display and controllers the project
+This is the inital draft of my individual block diagram. This visually shows how the my project is connected to the microcontroller and my team. 
+
+Key points are:
+
+1. Power: 3.3 v
+1. This is the HMI (Human Machine Interface) for the main prototype
+1. Wirelessly connected to the project via the Control board
+1. Power source: Battery or Barraljack(backup)
+1. Upstream and Downstream headers act as backup connections
+1. Joysticks + Buttons cause updates on the OLED display and controllers the project
 
 
 ![Indivial Block diagram ](Block%20Diagram-314.png)
