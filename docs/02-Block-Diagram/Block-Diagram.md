@@ -15,7 +15,7 @@ Key points are:
 1. Wirelessly connected to the project via the Control board
 1. Power source: Battery or Barraljack(backup)
 1. Upstream and Downstream headers act as backup connections
-1. Joysticks + Buttons cause updates on the OLED display and controllers the project
+1. Joysticks + Buttons cause updates on the OLED display and controls the project
 
 
 ![Indivial Block diagram ](image.png)
