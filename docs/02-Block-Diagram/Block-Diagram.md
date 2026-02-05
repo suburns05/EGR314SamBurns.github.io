@@ -8,17 +8,14 @@ tags:
 ## Overview
 This needs to be updated with a brief purpose for having the block diagram.
 Things to mention are:
-* power levels
-* sensor
-* Actuator
-* team connections
-* Power source
-* ...
-
-To get some initial formatting help, one can view ["here"](https://embedded-systems-design.github.io/EGR304DataSheetTemplate/Appendix/basic-markdown-examples/) some basic techniques.
+* Power: 3.3 v
+* This is the HMI (Human Machine Interface) for the main prototype
+* Wirelessly connected to the project via the Control board
+* Power source: Battery or Barraljack(backup)
+* Upstream and Downstream headers act as backup connections
+* Joysticks + Buttons cause updates on the OLED display and controllers the project
 
 
-## Example Block Diagram 
-Showing an example of how to import a screenshot of the block diagram created outside of git and brought into a page.
+![Indivial Block diagram ](Block%20Diagram-314.png)
 
-![Example of Indivial Block diagram ](individual-block-diagram.png)
+The PDF download can be found ["here"](Block%20Diagram-314.pdf).
