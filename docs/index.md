@@ -11,12 +11,12 @@ as part of<br>
 for<br>
 <font size= "5"> Team 308 </font><br>
 
-**Submission: Jan, 17, 2026**
+**Submission: Feb, 4, 2026**
 </center>
 
 ## Introduction
 
-* **This needs to be updated so that a reader gets an idea of the purpose of this datasheet.**
+* **Currently at Stage 2 for the individual data sheet, please see [Block Diagram](https://suburns05.github.io/EGR314SamBurns.github.io/02-Block-Diagram/Block-Diagram/) to see the latest update**
 
 ### Project Summary
 
