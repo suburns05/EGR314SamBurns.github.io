@@ -33,7 +33,7 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 
 > This is the example found in the assignment, uses more html
 
-*Table 1: Example component selection*
+<details> <summary> *Table 1: Example component selection* </summary> <p>
 
 **External Clock Module**
 
@@ -43,7 +43,10 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 
 **Rationale:** A clock oscillator is easier ....
 
-### Style 2
+</p>
+</details>
+
+<!-- ### Style 2
 
 > Also acceptable, more markdown friendly
 
@@ -62,4 +65,4 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
     | Compatible with PSoC                      | Needs special PCB layout.                                        |
     | Meets surface mount constraint of project |
 
-**Rationale:** A clock oscillator is easier ...
+**Rationale:** A clock oscillator is easier ... -->
