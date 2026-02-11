@@ -29,48 +29,21 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 -----------
 > Remove the following before submitting! Use them to present the selected components
 
-### Table 1 
+### Style 1
 
 > This is the example found in the assignment, uses more html
 
-<details>
-    <summary>Component selection</summary>
-    <div>
+<details> <summary> Table 1: Example component selection </summary> 
 
-    <h4>External Clock Module</h4>
+**External Clock Module**
 
-    <table>
-        <thead>
-            <tr>
-                <th>Component</th>
-                <th>Pros</th>
-                <th>Cons</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                      <img src="\image1.png" alt="XC1259TR-ND" /><br/>
-                    XC1259TR-ND surface mount crystal<br/>
-                    $1/each<br/>
-                    <a href="http://www.digikey.com/product-detail/en/ECS-40.3-S-5PX-TR/XC1259TR-ND/827366">link to product</a>
-                </td>
-                <td>
-                    * Inexpensive<br/>
-                    * Compatible with PSoC<br/>
-                    * Meets surface mount constraint of project
-                </td>
-                <td>
-                    * Requires external components and support circuitry for interface<br/>
-                    * Needs special PCB layout.
-                </td>
-            </tr>
-        </tbody>
-    </table>
+| **Component**                                                                                                                                                                                      | **Pros**                                                                                                                                    | **Cons**                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![](image1.png)<br> XC1259TR-ND surface mount crystal<br>$1/each<br>[link to product](http://www.digikey.com/product-detail/en/ECS-40.3-S-5PX-TR/XC1259TR-ND/827366)                 | \* Inexpensive[^1]<br>\* Compatible with PSoC<br>\* Meets surface mount constraint of project                                               | \* Requires external components and support circuitry for interface<br>\* Needs special PCB layout. |
 
-    <p><strong>Rationale:</strong> A clock oscillator is easier ....</p>
+**Rationale:** A clock oscillator is easier ....
 
-    </div>
+
 </details>
 
 <!-- ### Style 2
