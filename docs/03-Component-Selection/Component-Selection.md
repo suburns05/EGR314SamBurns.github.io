@@ -29,12 +29,12 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 -----------
 > Remove the following before submitting! Use them to present the selected components
 
-### Style 1
+### Table 1 
 
 > This is the example found in the assignment, uses more html
 
 <details>
-    <summary>*Table 1: Example component selection*</summary>
+    <summary>Component selection</summary>
     <div>
 
     <h4>External Clock Module</h4>
@@ -50,7 +50,7 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
         <tbody>
             <tr>
                 <td>
-                    <img src="image1.png" alt="XC1259TR-ND" /><br/>
+                      <img src="./image1.png" alt="XC1259TR-ND" /><br/>
                     XC1259TR-ND surface mount crystal<br/>
                     $1/each<br/>
                     <a href="http://www.digikey.com/product-detail/en/ECS-40.3-S-5PX-TR/XC1259TR-ND/827366">link to product</a>
