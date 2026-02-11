@@ -33,7 +33,7 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 
 > This is the example found in the assignment, uses more html
 
-<details> <summary> Table 1: Example component selection </summary> 
+*Table 1: Example component selection *
 
 **External Clock Module**
 
@@ -44,7 +44,6 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 **Rationale:** A clock oscillator is easier ....
 
 
-</details>
 
 <!-- ### Style 2
 
