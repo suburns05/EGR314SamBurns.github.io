@@ -4,7 +4,7 @@ title: Module's Selected Major Components
 
 ## Module's Selected Major Components
 
-The following sections are the selected major components necessary for my subsystem of our proejct. The Human Machine Interface acts similar to a typical RC remote with additional information and customization that can be done on the fly. 
+The following are the selected major components necessary for my subsystem of our proejct. This system is the Human Machine Interface, which acts similar to a typical RC remote with additional information and customization that can be done on the fly. 
 
 ### Power Management
 
