@@ -8,7 +8,7 @@ The following sections are the selected major components necessary for my subsys
 
 ### Power Management
 
-I will proceed with option 2 due to being the least expensive option I found. 
+I will proceed with option 2 due to being the least expensive option I found. I also believe that this option will be the easiest to work with.
 
 
 
@@ -23,7 +23,7 @@ I choose option 3 due to being largest screen. This will help a lot to show real
 
 
 -----------
-> Remove the following before submitting! Use them to present the selected components
+
 
 
 
