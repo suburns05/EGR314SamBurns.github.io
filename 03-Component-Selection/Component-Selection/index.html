@@ -914,7 +914,7 @@
 <p><strong>For each of the following sections, use <ins>one of the two styles</ins> given near the end. <em>REMOVE THIS NOTE</em></strong></p>
 </blockquote>
 <h3 id="power-management">Power Management</h3>
-<p>(<strong>remove this note/placeholder</strong>: this is where your 3.3 volt switching regulator, any other needed power regulator, and power source {if applicable} <strong>THAT WERE SELECTED</strong>)</p>
+<p>I will proceed with option 2 due to being the least expensive option I found. </p>
 <p>For more details, review the <a href="https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#power-management">"Appendix - Component Selection Process - Power Mangement"</a> selection.</p>
 <h3 id="joystick">Joystick</h3>
 <p>I will proceed with JS1300AQ (#3) due to how simple and inexpensive the product is. I believe that desipait losing the range of an analog joystick, given enough code it would preform just the same. </p>
@@ -980,7 +980,33 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Rationale:</strong> A clock oscillator is easier ....</p>
+<p><strong>Voltage regulator</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Component</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../reg1.png" data-desc-position="bottom"><img alt="" src="../reg1.png"></a><br> #1 LP3996SD-0833/NOPB Dual output Voltage regulator <br>$1.12/each<br><a href="https://www.digikey.com/en/products/detail/texas-instruments/LP3996SD-0833-NOPB/1590116">link to product</a></td>
+<td>* Small foot print <br>* dual output <br>*Will short if over powered</td>
+<td>*Limited Input voltage <br> * Possibly over complicated for project</td>
+</tr>
+<tr>
+<td><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../reg2.png" data-desc-position="bottom"><img alt="" src="../reg2.png"></a><br> #2 MIC5365-3.3YC5-TR Voltage regulator <br>$0.12/each<br><a href="https://www.digikey.com/en/products/detail/microchip-technology/MIC5365-3-3YC5-TR/1868094">link to product</a></td>
+<td>* Simple desing <br>* Very inexpensive</td>
+<td>* Low input Voltage <br> * Limited Output current</td>
+</tr>
+<tr>
+<td><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../reg3.png" data-desc-position="bottom"><img alt="" src="../reg3.png"></a><br> #3 AZ1117CH-3.3TRG1 Voltage regulator <br>$0.16/each<br><a href="https://www.digikey.com/en/products/detail/diodes-incorporated/AZ1117CH-3-3TRG1/4470985">link to product</a></td>
+<td>* Highest input Voltage out of my selection <br>* Higher output current</td>
+<td>* No over voltage protection built in <br> *Long manufacturing time</td>
+</tr>
+</tbody>
+</table>
 <!-- ### Style 2
 
 > Also acceptable, more markdown friendly
