@@ -24,10 +24,6 @@ I choose option 3 due to being largest screen. This will help a lot to show real
 
 -----------
 
-
-
-
-
 ### Component selection 
 
 **Joystick**
