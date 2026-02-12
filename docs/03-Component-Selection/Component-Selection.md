@@ -29,17 +29,16 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 -----------
 > Remove the following before submitting! Use them to present the selected components
 
-### Style 1
 
-> This is the example found in the assignment, uses more html
 
-*Table 1: Example component selection *
 
-**External Clock Module**
+### Component selection 
+
+**Joystick**
 
 | **Component**                                                                                                                                                                                      | **Pros**                                                                                                                                    | **Cons**                                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| ![](image1.png)<br> XC1259TR-ND surface mount crystal<br>$1/each<br>[link to product](http://www.digikey.com/product-detail/en/ECS-40.3-S-5PX-TR/XC1259TR-ND/827366)                 | \* Inexpensive[^1]<br>\* Compatible with PSoC<br>\* Meets surface mount constraint of project                                               | \* Requires external components and support circuitry for interface<br>\* Needs special PCB layout. |
+| ![](joystick1.png)<br> SKRHAAE010 surface mount Joystick<br>$2.98/each<br>[link to product](https://www.digikey.com/en/products/detail/alps-alpine/SKRHAAE010/19529098)                 | \* Inexpensive <br>\* Low profile<br>\* Meets surface mount constraint of project <br>\* No possible way for to get stick drift                                                | \* Limited output range compared to an analog joystick<br>\* Needs additional parts to be user friendly |
 
 **Rationale:** A clock oscillator is easier ....
 
