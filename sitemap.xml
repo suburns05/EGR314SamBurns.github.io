@@ -21,7 +21,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://suburns05.github.io/EGR314SamBurns.github.io/04-BOM/BOM/</loc>
+         <loc>https://suburns05.github.io/EGR314SamBurns.github.io/04-Microcontroller-Selection/Microcontroller-Selection/</loc>
+         <lastmod>2026-02-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://suburns05.github.io/EGR314SamBurns.github.io/05-BOM/BOM/</loc>
          <lastmod>2026-02-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
