@@ -14,7 +14,7 @@ The following sections are the selected major components necessary for  .....
 
 For more details, review the ["Appendix - Component Selection Process - Power Mangement"](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#power-management) selection.
 
-### Sensor
+### Joystick
 
 (**remove this note/placeholder**: if applicable, this is where your  **SELECTED** sensor is shown. Otherwise, remove this section.)
 
@@ -41,9 +41,9 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 | ![](joystick1.png)<br> #1 SKRHAAE010 surface mount Joystick<br>$2.98/each<br>[link to product](https://www.digikey.com/en/products/detail/alps-alpine/SKRHAAE010/19529098)                 | \* Inexpensive <br>\* Low profile <br>\* Meets surface mount constraint of project <br>\* No possible way for to get stick drift                                                | \* Limited output range compared to an analog joystick <br> \* Needs additional parts to be user friendly |
 | ![](joystick2.png)<br> #2 THB001P Through hole mount Joystick<br>$3.04/each<br>[link to product](https://www.digikey.com/en/products/detail/c-k/THB001P/11687191)                 | \* Typical Joystick configuration <br>\* Highrange of outputs<br>\* Enables persision control                                                | \* Doesn't meet surface mount constraint of project<br>\* Possiblity of stickdrift |
 
-| ![](joystick3.png)<br> #3 JS1300AQ surface mount D-Pad<br>$2.18/each<br>[link to product](https://www.digikey.com/en/products/detail/e-switch/JS1300AQ/1556576)                 | \* Larger input area <br>\* Easier to use<br>\* Cheaper compared to other selected options                                                | \*Limited outputs <br>\* Large footprint compared to other selected options |   |
+| ![](joystick3.png)<br> #3 JS1300AQ surface mount D-Pad<br>$2.18/each<br>[link to product](https://www.digikey.com/en/products/detail/e-switch/JS1300AQ/1556576)                 | \* Larger input area <br>\* Easier to use<br>\* Cheaper compared to other selected options                                                | \*Limited outputs <br>\* Large footprint compared to other selected options |    |
 
-**Rationale:** A clock oscillator is easier ....
+
 
 
 **Screen**
