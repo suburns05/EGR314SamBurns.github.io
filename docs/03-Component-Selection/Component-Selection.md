@@ -10,7 +10,7 @@ The following sections are the selected major components necessary for  .....
 
 ### Power Management
 
-(**remove this note/placeholder**: this is where your 3.3 volt switching regulator, any other needed power regulator, and power source {if applicable} **THAT WERE SELECTED**)
+I will proceed with option 2 due to being the least expensive option I found. 
 
 For more details, review the ["Appendix - Component Selection Process - Power Mangement"](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#power-management) selection.
 
@@ -54,7 +54,13 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 
 
 
-**Rationale:** A clock oscillator is easier ....
+**Voltage regulator**
+
+| **Component**                                                                                                                                                                                      | **Pros**                                                                                                                                    | **Cons**                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| ![](reg1.png)<br> #1 LP3996SD-0833/NOPB Dual output Voltage regulator <br>$1.12/each<br>[link to product](https://www.digikey.com/en/products/detail/texas-instruments/LP3996SD-0833-NOPB/1590116)                 | \* Small foot print <br>\* dual output <br>\*Will short if over powered                                            | \*Limited Input voltage <br> \* Possibly over complicated for project |
+| ![](reg2.png)<br> #2 MIC5365-3.3YC5-TR Voltage regulator <br>$0.12/each<br>[link to product](https://www.digikey.com/en/products/detail/microchip-technology/MIC5365-3-3YC5-TR/1868094)                 | \* Simple desing <br>\* Very inexpensive                                             | \* Low input Voltage <br> \* Limited Output current |
+| ![](reg3.png)<br> #3 AZ1117CH-3.3TRG1 Voltage regulator <br>$0.16/each<br>[link to product](https://www.digikey.com/en/products/detail/diodes-incorporated/AZ1117CH-3-3TRG1/4470985)                 | \* Highest input Voltage out of my selection <br>\* Higher output current                            | \* No over voltage protection built in <br> \*Long manufacturing time  |
 
 
 
