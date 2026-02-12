@@ -16,11 +16,11 @@ For more details, review the ["Appendix - Component Selection Process - Power Ma
 
 ### Joystick
 
-I will proceed with JS1300AQ due to how simple and inexpensive the product is. I believe that desipait losing the range of an analog joystick, given enough code it would preform just the same. 
+I will proceed with JS1300AQ (#3) due to how simple and inexpensive the product is. I believe that desipait losing the range of an analog joystick, given enough code it would preform just the same. 
 
-### Actuator
+### OLED
 
-(**remove this note/placeholder**: if applicable, this is where your **Selected** the actuator items go, which includes both the driver and motor. Otherwise, remove this section.)
+I choose option 3 due to being largest screen. This will help a lot to show real time data coming back from our submarine.
 
 For more details, review the ["Appendix - Component Selection Process - Actuator"](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#actuator) selection.
 
@@ -48,6 +48,8 @@ For more details, review the ["Appendix - Component Selection Process - Actuator
 | **Component**                                                                                                                                                                                      | **Pros**                                                                                                                                    | **Cons**                                                                                            |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | ![](oled1.png)<br> #1 26095 Through hole OLED <br>$4.99/each<br>[link to product](https://www.digikey.com/en/products/detail/universal-solder-electronics-ltd/26095/16822116)                 | \* Familiar with due to Lab <br>\* Low profile <br>\*Popular option with a lot of open source help                                             | \* Small screen <br> \* Doesn't meet Surface mount constraints of project |
+| ![](oled2.png)<br> #2 WEA012864ALAP3N00E00 Through hole OLED <br>$14.78/each<br>[link to product](https://www.digikey.com/en/products/detail/winstar-display/WEA012864ALAP3N00E00/24883012)                 | \* Larger screen <br>\* Yellow text                                             | \* Unfamilar pin set up <br> \*Very expensive <br> \* Doesn't meet Surface mount constraints of project |
+| ![](oled3.png)<br> #3 B0CFF2TSJ1 Through hole OLED <br>$16.99/each<br>[link to product](https://www.digikey.com/en/products/detail/winstar-display/WEA012864ALAP3N00E00/24883012)                 | \* Largest screen out of my selection <br>\* Same address as one provided in class, just larger pixels                                             | \* Seems to only be sold on Amazon <br> \*Very expensive <br> \* Doesn't meet Surface mount constraints of project |
 
 
 
