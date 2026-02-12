@@ -885,11 +885,11 @@
 </tr>
 <tr>
 <td>Absolute Maximum current <br> (for entire IC)</td>
-<td>0.5A</td>
+<td>500 mA</td>
 </tr>
 <tr>
 <td>Maximum GPIO current <br> (per pin)</td>
-<td>40 mA</td>
+<td>20 mA</td>
 </tr>
 <tr>
 <td>Supports External Interrupts?</td>
@@ -913,61 +913,49 @@
 <tbody>
 <tr>
 <td>UART</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>3(UART0-2)</td>
+<td>1</td>
+<td>GPIO 17-18</td>
 </tr>
 <tr>
 <td>external SPI*</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>4(SPI0-3)</td>
+<td>0</td>
+<td></td>
 </tr>
 <tr>
 <td>I2C</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>2</td>
+<td>1</td>
+<td>GPIO 21-22</td>
 </tr>
 <tr>
 <td>GPIO</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>45</td>
+<td>10</td>
+<td>GPIO 1,2,4,5,6,13,14,15</td>
 </tr>
 <tr>
 <td>ADC</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>2 Units, 20 Channels</td>
+<td>0</td>
+<td>0</td>
 </tr>
 <tr>
 <td>LED PWM</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>Motor PWM</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
+<td>8</td>
+<td>2</td>
+<td>GPIO 12-13</td>
 </tr>
 <tr>
 <td>USB Programmer</td>
-<td>?</td>
 <td>1</td>
-<td>?</td>
-</tr>
-<tr>
-<td>...</td>
-<td></td>
-<td></td>
-<td></td>
+<td>1</td>
+<td>GPIO 19-20</td>
 </tr>
 </tbody>
 </table>
-<p>* The ESP32-S2 has multiple SPI interfaces, but some are for internal use</p>
+<p>* The ESP32-S3 is ideal for my subsystem due to its compact design but powerful internals. Having onboard Wifi/bluetooth is critical for my system to work as intended, which the ESP32-S3 has built in to the chip. In addition to that it has plenty of IO pins to make a funtional controller. I2C is utalized for a OLED display, while its other DC/AC pins can be used for Joystick, D-pads, and buttons. While the final configuration is still being decided, if I end up utalizing a D-pad like system then I would not need any analog pins. I will utalize the PWM pins for the two LEDs to enable futher ways to express status of the subsystem. </p>
 
 
 
