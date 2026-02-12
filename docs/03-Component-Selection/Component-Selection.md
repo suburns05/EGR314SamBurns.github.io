@@ -4,15 +4,13 @@ title: Module's Selected Major Components
 
 ## Module's Selected Major Components
 
-The following sections are the selected major components necessary for  .....
-
->**For each of the following sections, use <ins>one of the two styles</ins> given near the end. *REMOVE THIS NOTE***
+The following sections are the selected major components necessary for my subsystem of our proejct. The Human Machine Interface acts similar to a typical RC remote with additional information and customization that can be done on the fly. 
 
 ### Power Management
 
 I will proceed with option 2 due to being the least expensive option I found. 
 
-For more details, review the ["Appendix - Component Selection Process - Power Mangement"](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#power-management) selection.
+
 
 ### Joystick
 
@@ -22,7 +20,7 @@ I will proceed with JS1300AQ (#3) due to how simple and inexpensive the product 
 
 I choose option 3 due to being largest screen. This will help a lot to show real time data coming back from our submarine.
 
-For more details, review the ["Appendix - Component Selection Process - Actuator"](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/01-Componet-Selection/Component-Selection-Process/#actuator) selection.
+
 
 -----------
 > Remove the following before submitting! Use them to present the selected components
