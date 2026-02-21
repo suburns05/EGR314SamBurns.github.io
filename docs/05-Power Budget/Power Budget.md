@@ -1,5 +1,5 @@
 ---
-title: Module Bill of Materials
+title: Power Budget
 tags:
 - tag1
 - tag2
@@ -8,7 +8,6 @@ tags:
 ## Overview
 Written context needs to added!
 
->Pick **ONLY** one of the two examples show below. **Remove** the other example. **REMOVE notations within the remaining section about being an example.**  
 
 ## Bill of Materials (Example as Table)
 
