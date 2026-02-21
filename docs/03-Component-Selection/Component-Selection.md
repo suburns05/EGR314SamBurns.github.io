@@ -8,13 +8,13 @@ The following are the selected major components necessary for my subsystem of ou
 
 ### Power Management
 
-I will proceed with option 2 due to being the least expensive option I found. I also believe that this option will be the easiest to work with.
+I will proceed with option 3 due to being the least expensive option I found. I also believe that this option will be the easiest to work with.
 
 
 
 ### Joystick
 
-I will proceed with JS1300AQ (#3) due to how simple and inexpensive the product is. I believe that desipait losing the range of an analog joystick, given enough code it would preform just the same. 
+I will proceed with #2 due to how simple and inexpensive the product is. It was allowed dispait the combonet being a through hole set up, this part allows for better controll overall. 
 
 ### OLED
 

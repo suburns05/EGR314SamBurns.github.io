@@ -11,12 +11,12 @@ as part of<br>
 for<br>
 <font size= "5"> Team 308 </font><br>
 
-**Submission: Feb, 10, 2026**
+**Submission: Feb, 20, 2026**
 </center>
 
 ## Introduction
 
-* **Currently at Stage 2 for the individual data sheet, please see [Block Diagram](https://suburns05.github.io/EGR314SamBurns.github.io/02-Block-Diagram/Block-Diagram/) to see the latest update**
+* **Currently at Stage 3 for the individual data sheet, please see [Schamatic](https://embedded-systems-design.bitbucket.io/314/individual-assignments/schematic-design/) to see the latest update**
 
 ### Project Summary
 
