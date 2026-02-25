@@ -13,4 +13,4 @@ This schematic is my inital version of the HMI system. It has dual joystick cont
 
 ## Resouces
 
-The schematic as a PDF download is available [*here*](Version1.pdf), and the Zip folder of the project [*here*](egr314-subsystem-schematic-design-sbV1.zip).
+The schematic as a PDF download is available [*here*](schematic_SB_V1.pdf), and the Zip folder of the project [*here*](egr314-subsystem-schematic-design-sbV1.2.zip).
