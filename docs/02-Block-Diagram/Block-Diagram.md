@@ -4,9 +4,9 @@ tags:
 - tag1
 - tag2
 ---
-OUT DATED PLEASE UPDATE AS SOON AS POSSSIBLE (REFER THE THE SCHEMATIC FOR LATEST PIN SET UP)
+
 ## Overview
-This is the inital draft of my individual block diagram. This visually shows how the my project is connected to the microcontroller and my team. 
+This is the updated draft of my individual block diagram. This visually shows how the my project is connected to the microcontroller and my team. 
 
 Key points are:
 
