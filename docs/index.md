@@ -7,11 +7,11 @@ tags:
 <center>
 <font size= "6">Sam Burns Datasheet</font><br>
 as part of<br>
-<font size= "8"> Project Name</font><br>
+<font size= "8"> ROV MINI SUB</font><br>
 for<br>
 <font size= "5"> Team 308 </font><br>
 
-**Submission: Feb, 20, 2026**
+**Submission: Feb, 25, 2026**
 </center>
 
 ## Introduction
