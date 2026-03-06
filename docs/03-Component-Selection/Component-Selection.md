@@ -8,7 +8,7 @@ The following are the selected major components necessary for my subsystem of ou
 
 ### Power Management
 
-I will proceed with option 3 due to being the least expensive option I found. I also believe that this option will be the easiest to work with.
+I will proceed with option 3 due to being the most affordable option I found. I also believe that this option will be the easiest to work with.
 
 
 
