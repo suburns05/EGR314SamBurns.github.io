@@ -11,12 +11,12 @@ as part of<br>
 for<br>
 <font size= "5"> Team 308 </font><br>
 
-**Submission: Feb, 25, 2026**
+**Submission: Mar, 5, 2026**
 </center>
 
 ## Introduction
 
-* **Currently at Stage 3 for the individual data sheet, please see [Schamatic](https://embedded-systems-design.bitbucket.io/314/individual-assignments/schematic-design/) to see the latest update**
+* **Currently at the Final Stage for the individual data sheet, please see each section for new updates**
 
 ### Project Summary
 
@@ -25,7 +25,7 @@ for<br>
 
 ### My Contribution
 
-* This needs to be updated to reflect a team introduction
-* Content should also help an unfamiliar reader navigate to areas of interest. Information like:
+* This subsystems is the Teams HMI system. 
+* This site serves as documentation of the steps taken to reach the final product of this subsystem.
 
 
