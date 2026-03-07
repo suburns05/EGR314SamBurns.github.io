@@ -15,4 +15,4 @@ This is just a rough draft, I intend to finalize this as we get closer to closin
 
 ## Resouces
 
-The power budget as a PDF download is available [*here*](powerBudget.pdf), and a Microsoft Excel Sheet [*here*](PowerBudgetSB.xlsx).
+The power budget as a PDF download is available [*here*](powerBudget.pdf), and a Microsoft Excel Sheet [*here*](PowerBudgetSamBurns.xlsx).
