@@ -6,11 +6,11 @@ tags:
 ---
 
 ## Overview
-Here is a rough over view of my BOM
+Here is a rough over view of my BOM. Very simple break down of my componets that are directly sourced through KiCad. Other then the previously listed major componets there are a lot of ressistor, capacitors and diodes that bring the project to life.
 
 ## Bill of Materials 
 ![](image.png){style width: "2000"}
-**Figure ##:** Example Bill of Materials as a screenshot.
+
 
 As you can see, the text can be difficult to read without opening the image.
 
