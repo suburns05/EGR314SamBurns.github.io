@@ -987,6 +987,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#message-type-14-error-acknowledgement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Type 14 — Error Acknowledgement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#message-type-67-button-pressed-joystick-click-in" class="md-nav__link">
     <span class="md-ellipsis">
       Message Type 67 — Button Pressed (Joystick Click-In)
@@ -1029,9 +1038,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#message-type-12-request-subsystem-status" class="md-nav__link">
+  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
     <span class="md-ellipsis">
-      Message Type 12 — Request Subsystem Status
+      Message Type 12 — Subsystem Status Request
     </span>
   </a>
   
@@ -1203,6 +1212,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#message-type-14-error-acknowledgement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Type 14 — Error Acknowledgement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#message-type-67-button-pressed-joystick-click-in" class="md-nav__link">
     <span class="md-ellipsis">
       Message Type 67 — Button Pressed (Joystick Click-In)
@@ -1245,9 +1263,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#message-type-12-request-subsystem-status" class="md-nav__link">
+  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
     <span class="md-ellipsis">
-      Message Type 12 — Request Subsystem Status
+      Message Type 12 — Subsystem Status Request
     </span>
   </a>
   
@@ -1358,8 +1376,7 @@ any UART messages.</p>
 <p>All messages I send go directly to Adrian (0x02).</p>
 <hr>
 <h3 id="message-type-1-set-motor-speed-joystick-1-input">Message Type 1 — Set Motor Speed (Joystick 1 Input)</h3>
-<p>Sent to Adrian when the user moves Joystick 1. The X-axis maps to motor speed
-and Y-axis maps to motor direction.</p>
+<p>Sent to Adrian when the user moves Joystick 1.</p>
 <table>
 <thead>
 <tr>
@@ -1421,16 +1438,72 @@ and Y-axis maps to motor direction.</p>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 1 (me), <code>receiver_subsys</code> always 2 (Adrian)
-- Joystick 1 X-axis mapped to <code>motor_speed</code> range 0–15
-- <code>motor_direction</code>: 0 = forward, 1 = reverse (from Y-axis)</p>
+- Joystick 1 X-axis (0–15) → <code>motor_speed</code>
+- <code>motor_direction</code>: 0 = forward, 1 = reverse</p>
 <p><strong>Example packet:</strong>
 </p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x01 0x02 | 0x01 0x01 0x02 0x01 0x04 0x01 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
+<h3 id="message-type-14-error-acknowledgement">Message Type 14 — Error Acknowledgement</h3>
+<p>Sent to Adrian in response to a Type 14 error alert. Confirms the HMI received
+and displayed the error. Error codes are still being defined by the team.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Byte 1</th>
+<th>Byte 2</th>
+<th>Byte 3</th>
+<th>Byte 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variable Name</td>
+<td>message_type</td>
+<td>sender_subsys</td>
+<td>receiver_subsys</td>
+<td>error_code</td>
+</tr>
+<tr>
+<td>Variable Type</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+<td>int8_t</td>
+</tr>
+<tr>
+<td>Min Value</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Max Value</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>64</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>10</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong>
+- Sent immediately after displaying a received Type 14 error
+- <code>error_code</code> echoes back the code received — full error decode table TBD with team</p>
+<p><strong>Example packet:</strong>
+</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x01 0x02 | 0x0A 0x01 0x02 0x00 0x00 ... | 0x59 0x42
+</code></pre></div><p></p>
+<hr>
 <h3 id="message-type-67-button-pressed-joystick-click-in">Message Type 67 — Button Pressed (Joystick Click-In)</h3>
-<p>Sent to Adrian when the user clicks in either joystick. Carries current toggle
-state so Adrian can act on it directly without tracking state himself.</p>
+<p>Sent to Adrian when the user clicks in either joystick.</p>
 <table>
 <thead>
 <tr>
@@ -1440,7 +1513,6 @@ state so Adrian can act on it directly without tracking state himself.</p>
 <th>Byte 3</th>
 <th>Byte 4</th>
 <th>Byte 5</th>
-<th>Bytes 6+</th>
 </tr>
 </thead>
 <tbody>
@@ -1451,11 +1523,9 @@ state so Adrian can act on it directly without tracking state himself.</p>
 <td>receiver_subsys</td>
 <td>button_number</td>
 <td>button_state</td>
-<td>unused</td>
 </tr>
 <tr>
 <td>Variable Type</td>
-<td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
@@ -1469,7 +1539,6 @@ state so Adrian can act on it directly without tracking state himself.</p>
 <td>2</td>
 <td>1</td>
 <td>0</td>
-<td>0</td>
 </tr>
 <tr>
 <td>Max Value</td>
@@ -1478,7 +1547,6 @@ state so Adrian can act on it directly without tracking state himself.</p>
 <td>2</td>
 <td>2</td>
 <td>1</td>
-<td>0</td>
 </tr>
 <tr>
 <td>Example</td>
@@ -1487,25 +1555,22 @@ state so Adrian can act on it directly without tracking state himself.</p>
 <td>2</td>
 <td>1</td>
 <td>1</td>
-<td>0x00</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
 - <code>button_number</code>: 1 = Joystick 1 click-in, 2 = Joystick 2 click-in
-- <code>button_state</code>: 0 = off, 1 = on — HMI tracks state and sends current value on each press
-- Unused bytes padded with 0x00</p>
+- <code>button_state</code>: 0 = off, 1 = on — HMI tracks and sends current state on each press</p>
 <p><strong>Example packet:</strong>
 </p><div class="highlight"><pre><span></span><code>// Button 1 ON:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x01 0x00 0x00 ... | 0x59 0x42
+0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x01 0x00 ... | 0x59 0x42
 
 // Button 1 OFF:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x00 0x00 0x00 ... | 0x59 0x42
+0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x00 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
 <h2 id="messages-received">Messages Received</h2>
-<p>All messages I receive come directly from Adrian (0x02), who forwards them from
-the daisy chain.</p>
+<p>All messages I receive come directly from Adrian (0x02).</p>
 <hr>
 <h3 id="message-type-2-motor-info-display">Message Type 2 — Motor Info Display</h3>
 <p>Forwarded to me by Adrian from Jacob. I display current motor state on screen.</p>
@@ -1569,12 +1634,8 @@ the daisy chain.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 2 (Adrian), <code>receiver_subsys</code> always 1 (me)
-- <code>motor_speed</code> range 0–15, <code>motor_direction</code>: 0 = forward, 1 = reverse
-- Display both values on HMI screen</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x02 0x02 0x01 0x04 0x00 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x02 0x02 0x01 0x04 0x00 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-3-sensor-value-display">Message Type 3 — Sensor Value Display</h3>
@@ -1640,15 +1701,14 @@ the daisy chain.</p>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 2 (Adrian), <code>receiver_subsys</code> always 1 (me)
 - Reconstruct: <code>sensor_value = (sensor_value_upper &lt;&lt; 8) | sensor_value_lower</code>
 - Example: <code>(0x01 &lt;&lt; 8) | 0x2C = 300</code></p>
 <p><strong>Example packet:</strong>
 </p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x03 0x02 0x01 0x01 0x01 0x2C 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
-<h3 id="message-type-12-request-subsystem-status">Message Type 12 — Request Subsystem Status</h3>
-<p>Forwarded to me by Adrian. Contains a status request code I display or act on.</p>
+<h3 id="message-type-12-subsystem-status-request">Message Type 12 — Subsystem Status Request</h3>
+<p>Sent to me by Adrian containing a status request code to display.</p>
 <table>
 <thead>
 <tr>
@@ -1691,15 +1751,13 @@ the daisy chain.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 2 (Adrian), <code>receiver_subsys</code> always 1 (me)
-- <code>code</code> meaning to be defined with team</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0C 0x02 0x01 0x03 0x00 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0C 0x02 0x01 0x03 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-14-subsystem-error-alert">Message Type 14 — Subsystem Error Alert</h3>
-<p>Forwarded to me by Adrian from Jacob. I display the error on screen.</p>
+<p>Forwarded to me by Adrian. I display the error on screen and send an
+acknowledgement back to Adrian.</p>
 <table>
 <thead>
 <tr>
@@ -1749,15 +1807,14 @@ the daisy chain.</p>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 2 (Adrian), <code>receiver_subsys</code> always 1 (me)
 - <code>sender_num</code> identifies which subsystem originated the error (e.g. 4 = Jacob)
-- Display error code and source subsystem on HMI screen</p>
+- Upon receipt, display error then immediately send a Type 14 ack back to Adrian</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0A 0x02 0x01 0x0A 0x04 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0A 0x02 0x01 0x0A 0x04 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-15-subsystem-status-response">Message Type 15 — Subsystem Status Response</h3>
-<p>Forwarded to me by Adrian from Jacob. I display subsystem status on screen.</p>
+<p>Forwarded to me by Adrian. I display subsystem status on screen.</p>
 <table>
 <thead>
 <tr>
@@ -1807,11 +1864,10 @@ the daisy chain.</p>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- <code>sender_subsys</code> always 2 (Adrian), <code>receiver_subsys</code> always 1 (me)
 - <code>sender_num</code> identifies which subsystem sent the status (e.g. 4 = Jacob)
 - <code>status_code</code> meaning to be confirmed with team</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0D 0x02 0x01 0x04 0x05 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0D 0x02 0x01 0x04 0x05 0x00 ... | 0x59 0x42
 </code></pre></div><p></p>
 <hr>
 <h2 id="valid-full-packet-reference">Valid Full Packet Reference</h2>
@@ -1844,8 +1900,6 @@ the daisy chain.</p>
 <ul>
 <li>Prefix: <code>0x41 0x5A</code></li>
 <li>Suffix: <code>0x59 0x42</code></li>
-<li>Source/Dest ID are the <strong>class protocol</strong> board IDs (confirm yours with instructor)</li>
-<li>Message data bytes above fit inside bytes 5–62</li>
 <li>All unused bytes padded with <code>0x00</code></li>
 </ul>
 
