@@ -17,40 +17,70 @@ any UART messages.
 
 | Individual | Subsystem Number |
 |------------|-----------------|
-| Sam B (me) | 1 (0x01)        |
-| Adrian P   | 2 (0x02)        |
-| Andrew I   | 3 (0x03)        |
-| Jacob D    | 4 (0x04)        |
-| Sam M      | 5 (0x05)        |
-| Mo A       | 6 (0x06)        |
+| Sam B (me) | 1               |
+| Adrian P   | 2               |
+| Andrew I   | 3               |
+| Jacob D    | 4               |
+| Sam M      | 5               |
+| Mo A       | 6               |
 
 ---
 
 ## Messages Sent
 
-All messages I send go directly to Adrian (0x02).
+All messages I send go directly to Adrian (Subsystem 2).
 
 ---
 
 ### Message Type 1 — Set Motor Speed (Joystick 1 Input)
 
-Sent to Adrian when the user moves Joystick 1.
+Sent to Adrian when the user moves Joystick 1. One message carries both axes:
+X-axis controls forward/reverse, Y-axis controls left/right. Speed increases
+with deflection from center on each axis.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4       | Byte 5      | Byte 6          |
-|---------------|--------------|---------------|-----------------|--------------|-------------|-----------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | motor_number | motor_speed | motor_direction |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t      | int8_t      | int8_t          |
-| Min Value     | 1            | 1             | 2               | 1            | 0           | 0               |
-| Max Value     | 1            | 1             | 2               | 2            | 15          | 1               |
-| Example       | 1            | 1             | 2               | 1            | 4           | 1               |
+| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4       | Byte 5        | Byte 6         | Byte 7       | Byte 8        |
+|---------------|--------------|---------------|-----------------|--------------|---------------|----------------|--------------|---------------|
+| Variable Name | message_type | sender_subsys | receiver_subsys | x_speed      | x_direction   | y_speed        | y_direction  | unused        |
+| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t      | uint8_t       | uint8_t        | uint8_t      | uint8_t       |
+| Min Value     | 1            | 1             | 2               | 0            | 0             | 0              | 0            | 0             |
+| Max Value     | 1            | 1             | 2               | 15           | 1             | 15             | 1            | 0             |
+| Example       | 1            | 1             | 2               | 8            | 0             | 4              | 1            | 0             |
 
 **Notes:**
-- Joystick 1 X-axis (0–15) → `motor_speed`
-- `motor_direction`: 0 = forward, 1 = reverse
+- `x_speed`: Joystick X-axis deflection mapped to 0–15 (0 = center/stopped)
+- `x_direction`: 0 = forward, 1 = reverse
+- `y_speed`: Joystick Y-axis deflection mapped to 0–15 (0 = center/stopped)
+- `y_direction`: 0 = left, 1 = right
+- Speed increases with distance from joystick center on each axis
+- Byte 8 padded with 0x00
 
 **Example packet:**
 ```
-0x41 0x5A 0x01 0x02 | 0x01 0x01 0x02 0x01 0x04 0x01 0x00 ... | 0x59 0x42
+415A0102 01010208000401 ... 5942
+```
+*(x_speed=8 forward, y_speed=4 right)*
+
+---
+
+### Message Type 12 — Subsystem Status Request
+
+Sent to Adrian to request a status update from the system.
+
+| Field         | Byte 1       | Byte 2        | Byte 3          |
+|---------------|--------------|---------------|-----------------|
+| Variable Name | message_type | sender_subsys | receiver_subsys |
+| Variable Type | uint8_t      | uint8_t       | uint8_t         |
+| Min Value     | 12           | 1             | 2               |
+| Max Value     | 12           | 1             | 2               |
+| Example       | 12           | 1             | 2               |
+
+**Notes:**
+- No additional data needed — Adrian handles routing the status check
+- Sent when user requests a system status check via HMI
+
+**Example packet:**
+```
+415A0102 0C0102000000 ... 5942
 ```
 
 ---
@@ -74,14 +104,15 @@ and displayed the error. Error codes are still being defined by the team.
 
 **Example packet:**
 ```
-0x41 0x5A 0x01 0x02 | 0x0A 0x01 0x02 0x00 0x00 ... | 0x59 0x42
+415A0102 0A010200000000 ... 5942
 ```
 
 ---
 
 ### Message Type 67 — Button Pressed (Joystick Click-In)
 
-Sent to Adrian when the user clicks in either joystick.
+Sent to Adrian when the user clicks in either joystick. Carries the current
+toggle state so Adrian can act on it directly.
 
 | Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4        | Byte 5       |
 |---------------|--------------|---------------|-----------------|---------------|--------------|
@@ -93,22 +124,22 @@ Sent to Adrian when the user clicks in either joystick.
 
 **Notes:**
 - `button_number`: 1 = Joystick 1 click-in, 2 = Joystick 2 click-in
-- `button_state`: 0 = off, 1 = on — HMI tracks and sends current state on each press
+- `button_state`: 0 = off, 1 = on — HMI tracks state and sends current value on press
 
 **Example packet:**
 ```
 // Button 1 ON:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x01 0x00 ... | 0x59 0x42
+415A0102 430102010100 ... 5942
 
 // Button 1 OFF:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x00 0x00 ... | 0x59 0x42
+415A0102 430102010000 ... 5942
 ```
 
 ---
 
 ## Messages Received
 
-All messages I receive come directly from Adrian (0x02).
+All messages I receive come directly from Adrian (Subsystem 2).
 
 ---
 
@@ -120,13 +151,13 @@ Forwarded to me by Adrian from Jacob. I display current motor state on screen.
 |---------------|--------------|---------------|-----------------|----------|-------------|-----------------|
 | Variable Name | message_type | sender_subsys | receiver_subsys | motor_id | motor_speed | motor_direction |
 | Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t  | int8_t      | int8_t          |
-| Min Value     | 2            | 2             | 1               | 2        | 0           | 0               |
-| Max Value     | 2            | 2             | 1               | 2        | 15          | 1               |
-| Example       | 2            | 2             | 1               | 4        | 0           | 0               |
+| Min Value     | 2            | 2             | 1               | 1        | 0           | 0               |
+| Max Value     | 2            | 2             | 1               | 3        | 15          | 1               |
+| Example       | 2            | 2             | 1               | 2        | 8           | 0               |
 
 **Example packet:**
 ```
-0x41 0x5A 0x02 0x01 | 0x02 0x02 0x01 0x04 0x00 0x00 ... | 0x59 0x42
+415A0201 020201020800 ... 5942
 ```
 
 ---
@@ -140,35 +171,35 @@ Forwarded to me by Adrian. I display this sensor reading on screen.
 | Variable Name | message_type | sender_subsys | receiver_subsys | sensor_number | sensor_value_upper | sensor_value_lower |
 | Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t       | uint8_t            | uint8_t            |
 | Min Value     | 3            | 2             | 1               | 1             | 0                  | 0                  |
-| Max Value     | 3            | 2             | 1               | 255           | 255                | 255                |
+| Max Value     | 3            | 2             | 1               | 3             | 255                | 255                |
 | Example       | 3            | 2             | 1               | 1             | 0x01               | 0x2C               |
 
 **Notes:**
-- Reconstruct: `sensor_value = (sensor_value_upper << 8) | sensor_value_lower`
+- Reconstruct full value: `sensor_value = (sensor_value_upper << 8) | sensor_value_lower`
 - Example: `(0x01 << 8) | 0x2C = 300`
 
 **Example packet:**
 ```
-0x41 0x5A 0x02 0x01 | 0x03 0x02 0x01 0x01 0x01 0x2C 0x00 ... | 0x59 0x42
+415A0201 03020101012C ... 5942
 ```
 
 ---
 
-### Message Type 12 — Subsystem Status Request
+### Message Type 12 — Subsystem Status Response
 
-Sent to me by Adrian containing a status request code to display.
+Sent to me by Adrian containing a status code to display.
 
-| Field         | Byte 1       | Byte 2        | Byte 3 |
-|---------------|--------------|---------------|--------|
-| Variable Name | message_type | sender_subsys | code   |
-| Variable Type | uint8_t      | uint8_t       | uint8_t|
-| Min Value     | 12           | 2             | 0      |
-| Max Value     | 12           | 2             | 15     |
-| Example       | 12           | 2             | 3      |
+| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4 |
+|---------------|--------------|---------------|-----------------|--------|
+| Variable Name | message_type | sender_subsys | receiver_subsys | code   |
+| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t|
+| Min Value     | 12           | 2             | 1               | 0      |
+| Max Value     | 12           | 2             | 1               | 15     |
+| Example       | 12           | 2             | 1               | 3      |
 
 **Example packet:**
 ```
-0x41 0x5A 0x02 0x01 | 0x0C 0x02 0x01 0x03 0x00 ... | 0x59 0x42
+415A0201 0C020103000000 ... 5942
 ```
 
 ---
@@ -178,13 +209,13 @@ Sent to me by Adrian containing a status request code to display.
 Forwarded to me by Adrian. I display the error on screen and send an
 acknowledgement back to Adrian.
 
-| Field         | Byte 1       | Byte 2        | Byte 3     | Byte 4     |
-|---------------|--------------|---------------|------------|------------|
-| Variable Name | message_type | sender_subsys | error_code | sender_num |
-| Variable Type | uint8_t      | uint8_t       | int8_t     | uint8_t    |
-| Min Value     | 10           | 2             | 0          | 4          |
-| Max Value     | 10           | 2             | 64         | 4          |
-| Example       | 10           | 2             | 10         | 4          |
+| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4     | Byte 5     |
+|---------------|--------------|---------------|-----------------|------------|------------|
+| Variable Name | message_type | sender_subsys | receiver_subsys | error_code | sender_num |
+| Variable Type | uint8_t      | uint8_t       | uint8_t         | int8_t     | uint8_t    |
+| Min Value     | 10           | 2             | 1               | 0          | 1          |
+| Max Value     | 10           | 2             | 1               | 64         | 6          |
+| Example       | 10           | 2             | 1               | 10         | 4          |
 
 **Notes:**
 - `sender_num` identifies which subsystem originated the error (e.g. 4 = Jacob)
@@ -192,7 +223,7 @@ acknowledgement back to Adrian.
 
 **Example packet:**
 ```
-0x41 0x5A 0x02 0x01 | 0x0A 0x02 0x01 0x0A 0x04 0x00 ... | 0x59 0x42
+415A0201 0A02010A04000000 ... 5942
 ```
 
 ---
@@ -201,13 +232,13 @@ acknowledgement back to Adrian.
 
 Forwarded to me by Adrian. I display subsystem status on screen.
 
-| Field         | Byte 1       | Byte 2        | Byte 3     | Byte 4      |
-|---------------|--------------|---------------|------------|-------------|
-| Variable Name | message_type | sender_subsys | sender_num | status_code |
-| Variable Type | uint8_t      | uint8_t       | uint8_t    | int8_t      |
-| Min Value     | 13           | 2             | 4          | 0           |
-| Max Value     | 13           | 2             | 4          | 10          |
-| Example       | 13           | 2             | 4          | 5           |
+| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4     | Byte 5      |
+|---------------|--------------|---------------|-----------------|------------|-------------|
+| Variable Name | message_type | sender_subsys | receiver_subsys | sender_num | status_code |
+| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t    | int8_t      |
+| Min Value     | 13           | 2             | 1               | 1          | 0           |
+| Max Value     | 13           | 2             | 1               | 6          | 10          |
+| Example       | 13           | 2             | 1               | 4          | 5           |
 
 **Notes:**
 - `sender_num` identifies which subsystem sent the status (e.g. 4 = Jacob)
@@ -215,17 +246,7 @@ Forwarded to me by Adrian. I display subsystem status on screen.
 
 **Example packet:**
 ```
-0x41 0x5A 0x02 0x01 | 0x0D 0x02 0x01 0x04 0x05 0x00 ... | 0x59 0x42
+415A0201 0D020104050000 ... 5942
 ```
 
----
-
-## Valid Full Packet Reference
-
-| Byte  | 1    | 2    | 3         | 4       | 5–62         | 63   | 64   |
-|-------|------|------|-----------|---------|--------------|------|------|
-| Field | 0x41 | 0x5A | Source ID | Dest ID | Message Data | 0x59 | 0x42 |
-
-- Prefix: `0x41 0x5A`
-- Suffix: `0x59 0x42`
-- All unused bytes padded with `0x00`
+The software of this API download is available [*here*](pending.pdf), and the Zip folder of the project [*here*](ending.zip).
