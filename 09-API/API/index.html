@@ -987,6 +987,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Type 12 — Subsystem Status Request
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#message-type-14-error-acknowledgement" class="md-nav__link">
     <span class="md-ellipsis">
       Message Type 14 — Error Acknowledgement
@@ -1038,9 +1047,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
+  <a href="#message-type-12-subsystem-status-response" class="md-nav__link">
     <span class="md-ellipsis">
-      Message Type 12 — Subsystem Status Request
+      Message Type 12 — Subsystem Status Response
     </span>
   </a>
   
@@ -1066,15 +1075,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valid-full-packet-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      Valid Full Packet Reference
-    </span>
-  </a>
   
 </li>
       
@@ -1212,6 +1212,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Type 12 — Subsystem Status Request
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#message-type-14-error-acknowledgement" class="md-nav__link">
     <span class="md-ellipsis">
       Message Type 14 — Error Acknowledgement
@@ -1263,9 +1272,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#message-type-12-subsystem-status-request" class="md-nav__link">
+  <a href="#message-type-12-subsystem-status-response" class="md-nav__link">
     <span class="md-ellipsis">
-      Message Type 12 — Subsystem Status Request
+      Message Type 12 — Subsystem Status Response
     </span>
   </a>
   
@@ -1291,15 +1300,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#valid-full-packet-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      Valid Full Packet Reference
-    </span>
-  </a>
   
 </li>
       
@@ -1347,36 +1347,38 @@ any UART messages.</p>
 <tbody>
 <tr>
 <td>Sam B (me)</td>
-<td>1 (0x01)</td>
+<td>1</td>
 </tr>
 <tr>
 <td>Adrian P</td>
-<td>2 (0x02)</td>
+<td>2</td>
 </tr>
 <tr>
 <td>Andrew I</td>
-<td>3 (0x03)</td>
+<td>3</td>
 </tr>
 <tr>
 <td>Jacob D</td>
-<td>4 (0x04)</td>
+<td>4</td>
 </tr>
 <tr>
 <td>Sam M</td>
-<td>5 (0x05)</td>
+<td>5</td>
 </tr>
 <tr>
 <td>Mo A</td>
-<td>6 (0x06)</td>
+<td>6</td>
 </tr>
 </tbody>
 </table>
 <hr>
 <h2 id="messages-sent">Messages Sent</h2>
-<p>All messages I send go directly to Adrian (0x02).</p>
+<p>All messages I send go directly to Adrian (Subsystem 2).</p>
 <hr>
 <h3 id="message-type-1-set-motor-speed-joystick-1-input">Message Type 1 — Set Motor Speed (Joystick 1 Input)</h3>
-<p>Sent to Adrian when the user moves Joystick 1.</p>
+<p>Sent to Adrian when the user moves Joystick 1. One message carries both axes:
+X-axis controls forward/reverse, Y-axis controls left/right. Speed increases
+with deflection from center on each axis.</p>
 <table>
 <thead>
 <tr>
@@ -1387,6 +1389,8 @@ any UART messages.</p>
 <th>Byte 4</th>
 <th>Byte 5</th>
 <th>Byte 6</th>
+<th>Byte 7</th>
+<th>Byte 8</th>
 </tr>
 </thead>
 <tbody>
@@ -1395,9 +1399,11 @@ any UART messages.</p>
 <td>message_type</td>
 <td>sender_subsys</td>
 <td>receiver_subsys</td>
-<td>motor_number</td>
-<td>motor_speed</td>
-<td>motor_direction</td>
+<td>x_speed</td>
+<td>x_direction</td>
+<td>y_speed</td>
+<td>y_direction</td>
+<td>unused</td>
 </tr>
 <tr>
 <td>Variable Type</td>
@@ -1405,15 +1411,19 @@ any UART messages.</p>
 <td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
-<td>int8_t</td>
-<td>int8_t</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
 </tr>
 <tr>
 <td>Min Value</td>
 <td>1</td>
 <td>1</td>
 <td>2</td>
-<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
@@ -1422,26 +1432,86 @@ any UART messages.</p>
 <td>1</td>
 <td>1</td>
 <td>2</td>
-<td>2</td>
 <td>15</td>
 <td>1</td>
+<td>15</td>
+<td>1</td>
+<td>0</td>
 </tr>
 <tr>
 <td>Example</td>
 <td>1</td>
 <td>1</td>
 <td>2</td>
-<td>1</td>
+<td>8</td>
+<td>0</td>
 <td>4</td>
 <td>1</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- Joystick 1 X-axis (0–15) → <code>motor_speed</code>
-- <code>motor_direction</code>: 0 = forward, 1 = reverse</p>
+- <code>x_speed</code>: Joystick X-axis deflection mapped to 0–15 (0 = center/stopped)
+- <code>x_direction</code>: 0 = forward, 1 = reverse
+- <code>y_speed</code>: Joystick Y-axis deflection mapped to 0–15 (0 = center/stopped)
+- <code>y_direction</code>: 0 = left, 1 = right
+- Speed increases with distance from joystick center on each axis
+- Byte 8 padded with 0x00</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x01 0x02 | 0x01 0x01 0x02 0x01 0x04 0x01 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0102 01010208000401 ... 5942
+</code></pre></div>
+<em>(x_speed=8 forward, y_speed=4 right)</em><p></p>
+<hr>
+<h3 id="message-type-12-subsystem-status-request">Message Type 12 — Subsystem Status Request</h3>
+<p>Sent to Adrian to request a status update from the system.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Byte 1</th>
+<th>Byte 2</th>
+<th>Byte 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variable Name</td>
+<td>message_type</td>
+<td>sender_subsys</td>
+<td>receiver_subsys</td>
+</tr>
+<tr>
+<td>Variable Type</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+<td>uint8_t</td>
+</tr>
+<tr>
+<td>Min Value</td>
+<td>12</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Max Value</td>
+<td>12</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>12</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong>
+- No additional data needed — Adrian handles routing the status check
+- Sent when user requests a system status check via HMI</p>
+<p><strong>Example packet:</strong>
+</p><div class="highlight"><pre><span></span><code>415A0102 0C0102000000 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-14-error-acknowledgement">Message Type 14 — Error Acknowledgement</h3>
@@ -1499,11 +1569,12 @@ and displayed the error. Error codes are still being defined by the team.</p>
 - Sent immediately after displaying a received Type 14 error
 - <code>error_code</code> echoes back the code received — full error decode table TBD with team</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x01 0x02 | 0x0A 0x01 0x02 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0102 0A010200000000 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-67-button-pressed-joystick-click-in">Message Type 67 — Button Pressed (Joystick Click-In)</h3>
-<p>Sent to Adrian when the user clicks in either joystick.</p>
+<p>Sent to Adrian when the user clicks in either joystick. Carries the current
+toggle state so Adrian can act on it directly.</p>
 <table>
 <thead>
 <tr>
@@ -1560,17 +1631,17 @@ and displayed the error. Error codes are still being defined by the team.</p>
 </table>
 <p><strong>Notes:</strong>
 - <code>button_number</code>: 1 = Joystick 1 click-in, 2 = Joystick 2 click-in
-- <code>button_state</code>: 0 = off, 1 = on — HMI tracks and sends current state on each press</p>
+- <code>button_state</code>: 0 = off, 1 = on — HMI tracks state and sends current value on press</p>
 <p><strong>Example packet:</strong>
 </p><div class="highlight"><pre><span></span><code>// Button 1 ON:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x01 0x00 ... | 0x59 0x42
+415A0102 430102010100 ... 5942
 
 // Button 1 OFF:
-0x41 0x5A 0x01 0x02 | 0x43 0x01 0x02 0x01 0x00 0x00 ... | 0x59 0x42
+415A0102 430102010000 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h2 id="messages-received">Messages Received</h2>
-<p>All messages I receive come directly from Adrian (0x02).</p>
+<p>All messages I receive come directly from Adrian (Subsystem 2).</p>
 <hr>
 <h3 id="message-type-2-motor-info-display">Message Type 2 — Motor Info Display</h3>
 <p>Forwarded to me by Adrian from Jacob. I display current motor state on screen.</p>
@@ -1610,7 +1681,7 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>2</td>
 <td>2</td>
 <td>1</td>
-<td>2</td>
+<td>1</td>
 <td>0</td>
 <td>0</td>
 </tr>
@@ -1619,7 +1690,7 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>2</td>
 <td>2</td>
 <td>1</td>
-<td>2</td>
+<td>3</td>
 <td>15</td>
 <td>1</td>
 </tr>
@@ -1628,14 +1699,14 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>2</td>
 <td>2</td>
 <td>1</td>
-<td>4</td>
-<td>0</td>
+<td>2</td>
+<td>8</td>
 <td>0</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x02 0x02 0x01 0x04 0x00 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0201 020201020800 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-3-sensor-value-display">Message Type 3 — Sensor Value Display</h3>
@@ -1685,7 +1756,7 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>3</td>
 <td>2</td>
 <td>1</td>
-<td>255</td>
+<td>3</td>
 <td>255</td>
 <td>255</td>
 </tr>
@@ -1701,14 +1772,14 @@ and displayed the error. Error codes are still being defined by the team.</p>
 </tbody>
 </table>
 <p><strong>Notes:</strong>
-- Reconstruct: <code>sensor_value = (sensor_value_upper &lt;&lt; 8) | sensor_value_lower</code>
+- Reconstruct full value: <code>sensor_value = (sensor_value_upper &lt;&lt; 8) | sensor_value_lower</code>
 - Example: <code>(0x01 &lt;&lt; 8) | 0x2C = 300</code></p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x03 0x02 0x01 0x01 0x01 0x2C 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0201 03020101012C ... 5942
 </code></pre></div><p></p>
 <hr>
-<h3 id="message-type-12-subsystem-status-request">Message Type 12 — Subsystem Status Request</h3>
-<p>Sent to me by Adrian containing a status request code to display.</p>
+<h3 id="message-type-12-subsystem-status-response">Message Type 12 — Subsystem Status Response</h3>
+<p>Sent to me by Adrian containing a status code to display.</p>
 <table>
 <thead>
 <tr>
@@ -1716,6 +1787,7 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <th>Byte 1</th>
 <th>Byte 2</th>
 <th>Byte 3</th>
+<th>Byte 4</th>
 </tr>
 </thead>
 <tbody>
@@ -1723,10 +1795,12 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>Variable Name</td>
 <td>message_type</td>
 <td>sender_subsys</td>
+<td>receiver_subsys</td>
 <td>code</td>
 </tr>
 <tr>
 <td>Variable Type</td>
+<td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
@@ -1735,24 +1809,27 @@ and displayed the error. Error codes are still being defined by the team.</p>
 <td>Min Value</td>
 <td>12</td>
 <td>2</td>
+<td>1</td>
 <td>0</td>
 </tr>
 <tr>
 <td>Max Value</td>
 <td>12</td>
 <td>2</td>
+<td>1</td>
 <td>15</td>
 </tr>
 <tr>
 <td>Example</td>
 <td>12</td>
 <td>2</td>
+<td>1</td>
 <td>3</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0C 0x02 0x01 0x03 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0201 0C020103000000 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-14-subsystem-error-alert">Message Type 14 — Subsystem Error Alert</h3>
@@ -1766,6 +1843,7 @@ acknowledgement back to Adrian.</p>
 <th>Byte 2</th>
 <th>Byte 3</th>
 <th>Byte 4</th>
+<th>Byte 5</th>
 </tr>
 </thead>
 <tbody>
@@ -1773,11 +1851,13 @@ acknowledgement back to Adrian.</p>
 <td>Variable Name</td>
 <td>message_type</td>
 <td>sender_subsys</td>
+<td>receiver_subsys</td>
 <td>error_code</td>
 <td>sender_num</td>
 </tr>
 <tr>
 <td>Variable Type</td>
+<td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
 <td>int8_t</td>
@@ -1787,20 +1867,23 @@ acknowledgement back to Adrian.</p>
 <td>Min Value</td>
 <td>10</td>
 <td>2</td>
+<td>1</td>
 <td>0</td>
-<td>4</td>
+<td>1</td>
 </tr>
 <tr>
 <td>Max Value</td>
 <td>10</td>
 <td>2</td>
+<td>1</td>
 <td>64</td>
-<td>4</td>
+<td>6</td>
 </tr>
 <tr>
 <td>Example</td>
 <td>10</td>
 <td>2</td>
+<td>1</td>
 <td>10</td>
 <td>4</td>
 </tr>
@@ -1810,7 +1893,7 @@ acknowledgement back to Adrian.</p>
 - <code>sender_num</code> identifies which subsystem originated the error (e.g. 4 = Jacob)
 - Upon receipt, display error then immediately send a Type 14 ack back to Adrian</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0A 0x02 0x01 0x0A 0x04 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0201 0A02010A04000000 ... 5942
 </code></pre></div><p></p>
 <hr>
 <h3 id="message-type-15-subsystem-status-response">Message Type 15 — Subsystem Status Response</h3>
@@ -1823,6 +1906,7 @@ acknowledgement back to Adrian.</p>
 <th>Byte 2</th>
 <th>Byte 3</th>
 <th>Byte 4</th>
+<th>Byte 5</th>
 </tr>
 </thead>
 <tbody>
@@ -1830,11 +1914,13 @@ acknowledgement back to Adrian.</p>
 <td>Variable Name</td>
 <td>message_type</td>
 <td>sender_subsys</td>
+<td>receiver_subsys</td>
 <td>sender_num</td>
 <td>status_code</td>
 </tr>
 <tr>
 <td>Variable Type</td>
+<td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
 <td>uint8_t</td>
@@ -1844,20 +1930,23 @@ acknowledgement back to Adrian.</p>
 <td>Min Value</td>
 <td>13</td>
 <td>2</td>
-<td>4</td>
+<td>1</td>
+<td>1</td>
 <td>0</td>
 </tr>
 <tr>
 <td>Max Value</td>
 <td>13</td>
 <td>2</td>
-<td>4</td>
+<td>1</td>
+<td>6</td>
 <td>10</td>
 </tr>
 <tr>
 <td>Example</td>
 <td>13</td>
 <td>2</td>
+<td>1</td>
 <td>4</td>
 <td>5</td>
 </tr>
@@ -1867,41 +1956,9 @@ acknowledgement back to Adrian.</p>
 - <code>sender_num</code> identifies which subsystem sent the status (e.g. 4 = Jacob)
 - <code>status_code</code> meaning to be confirmed with team</p>
 <p><strong>Example packet:</strong>
-</p><div class="highlight"><pre><span></span><code>0x41 0x5A 0x02 0x01 | 0x0D 0x02 0x01 0x04 0x05 0x00 ... | 0x59 0x42
+</p><div class="highlight"><pre><span></span><code>415A0201 0D020104050000 ... 5942
 </code></pre></div><p></p>
-<hr>
-<h2 id="valid-full-packet-reference">Valid Full Packet Reference</h2>
-<table>
-<thead>
-<tr>
-<th>Byte</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5–62</th>
-<th>63</th>
-<th>64</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Field</td>
-<td>0x41</td>
-<td>0x5A</td>
-<td>Source ID</td>
-<td>Dest ID</td>
-<td>Message Data</td>
-<td>0x59</td>
-<td>0x42</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Prefix: <code>0x41 0x5A</code></li>
-<li>Suffix: <code>0x59 0x42</code></li>
-<li>All unused bytes padded with <code>0x00</code></li>
-</ul>
+<p>The software of this API download is available <a href="pending.pdf"><em>here</em></a>, and the Zip folder of the project <a href="ending.zip"><em>here</em></a>.</p>
 
 
 
