@@ -1,12 +1,45 @@
-article{
-    a {
-        font-style:italic;
-        }
+/* Ensure tabs overflow and items do not shrink */
+.md-tabs {
+  position: relative;
+  z-index: 5;
 }
 
-blockquote{
-    background: #ffc;
-    p,li{
-        color: var(--md-typeset-color);
-    }
+.md-tabs__list {
+  display: flex !important;
+  gap: 0.5rem;
+  white-space: nowrap;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.25) transparent;
+  padding: 0.25rem 0.5rem;
+  touch-action: pan-x;
+  -ms-overflow-style: auto;
 }
+
+.md-tabs__item { flex: 1 1 0 !important; }
+.md-tabs__link { display:block; text-align:center; padding:0.5rem 0; }
+
+
+/* Make sure no ancestor is clipping pointer events */
+.md-header, .md-main, .md-content {
+  pointer-events: auto;
+}
+
+/* Correct plain-CSS selectors (no nesting) */
+article a {
+  font-style: italic;
+}
+
+blockquote {
+  background: #fff8cc;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid rgba(0,0,0,0.06);
+}
+blockquote p,
+blockquote li {
+  color: var(--md-typeset-color);
+}
+
+
