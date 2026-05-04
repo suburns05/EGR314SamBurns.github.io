@@ -9,7 +9,7 @@ theme:
 
 
   palette:
-    primary: green
+    primary: dark purple
     accent: indigo
   font:
     text: Roboto
