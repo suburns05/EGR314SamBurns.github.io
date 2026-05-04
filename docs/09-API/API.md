@@ -1,4 +1,5 @@
----
+Here you go, clean copy-paste ready:
+markdown---
 title: API
 ---
 
@@ -6,12 +7,61 @@ title: API
 
 My role is the HMI subsystem. I allow the user to control the project via two
 joysticks and two click-in buttons. I display sensor data and system status updates
-on screen. My subsystem communicates with Adrian (ID 2) directly over LAN, with
-wired UART as a fallback. I am not physically in the daisy chain — all my
-communication goes to and from Adrian only.
+on screen. My subsystem communicates with Adrian (Subsystem 2) directly over
+**ESP-NOW** (primary), with wired **UART** as a fallback. I am not physically
+in the daisy chain — all my communication goes to and from Adrian only.
 
-The second joystick is used internally for screen navigation and does not generate
-any UART messages.
+Joystick 2 is used internally for on-screen menu navigation and does not generate
+any messages unless the click-in button is pressed.
+
+### Hardware Pin Reference
+
+| Function        | Pin      |
+|-----------------|----------|
+| UART TX         | GPIO 37  |
+| UART RX         | GPIO 36  |
+| OLED SCL        | GPIO 18  |
+| OLED SDA        | GPIO 17  |
+| Joystick 1 X    | GPIO 6   |
+| Joystick 1 Y    | GPIO 6   |
+| Joystick 1 Btn  | GPIO 14  |
+| Joystick 2 X    | GPIO 4   |
+| Joystick 2 Y    | GPIO 5   |
+| Joystick 2 Btn  | GPIO 13  |
+| LED (activity)  | GPIO 35  |
+| LED (alert)     | GPIO 36  |
+
+---
+
+## Packet Format
+
+All packets are **ASCII strings** in the following format:
+AZ + sender + receiver + type_char + data + YB
+
+| Field    | Value   | Notes                                                        |
+|----------|---------|--------------------------------------------------------------|
+| Prefix   | `AZ`    | Always 2 chars                                               |
+| Sender   | `1`–`6` | ASCII subsystem number                                       |
+| Receiver | `1`–`6` | ASCII subsystem number                                       |
+| Type     | See table below | Single ASCII char (or `43` for buttons)              |
+| Data     | Variable | Type-specific payload                                       |
+| Suffix   | `YB`    | Always 2 chars                                               |
+
+### Message Type Character Encoding
+
+| Type Number | Type Char | Description             |
+|-------------|-----------|-------------------------|
+| 1           | `1`       | Motor speed set         |
+| 2           | `2`       | Motor info display      |
+| 3           | `3`       | Sensor value            |
+| 10          | `A`       | Error alert             |
+| 12          | `C`       | Status request/response |
+| 13          | `D`       | Status forwarded        |
+| 14          | `E`       | Error ACK               |
+| 15          | `F`       | Status response         |
+| 67          | `43`      | Button press (two chars to avoid collision with Type 12 `C`) |
+
+---
 
 ## Team Member IDs
 
@@ -28,118 +78,105 @@ any UART messages.
 
 ## Messages Sent
 
-All messages I send go directly to Adrian (Subsystem 2).
+All messages I send go directly to Adrian (Subsystem 2) over ESP-NOW.
 
 ---
 
 ### Message Type 1 — Set Motor Speed (Joystick 1 Input)
 
-Sent to Adrian when the user moves Joystick 1. One message carries both axes:
-X-axis controls forward/reverse, Y-axis controls left/right. Speed increases
-with deflection from center on each axis.
+Joystick 1 X and Y axes are sent as **two separate packets** — one per motor.
+X-axis = Motor 1 (forward/reverse), Y-axis = Motor 2 (left/right). Speed is
+derived from joystick deflection magnitude with a dead zone of ±8 units.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4       | Byte 5        | Byte 6         | Byte 7       | Byte 8        |
-|---------------|--------------|---------------|-----------------|--------------|---------------|----------------|--------------|---------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | x_speed      | x_direction   | y_speed        | y_direction  | unused        |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t      | uint8_t       | uint8_t        | uint8_t      | uint8_t       |
-| Min Value     | 1            | 1             | 2               | 0            | 0             | 0              | 0            | 0             |
-| Max Value     | 1            | 1             | 2               | 15           | 1             | 15             | 1            | 0             |
-| Example       | 1            | 1             | 2               | 8            | 0             | 4              | 1            | 0             |
+| Field         | sender | receiver | type | motor_id | speed | direction |
+|---------------|--------|----------|------|----------|-------|-----------|
+| Variable Name | sender_subsys | receiver_subsys | T_MOTOR_SET | motor_id | speed | direction |
+| Variable Type | char   | char     | char | char     | char  | char      |
+| Min Value     | `1`    | `2`      | `1`  | `1`      | `0`   | `0`       |
+| Max Value     | `1`    | `2`      | `1`  | `2`      | `15`  | `1`       |
+| Example       | `1`    | `2`      | `1`  | `1`      | `8`   | `0`       |
 
 **Notes:**
-- `x_speed`: Joystick X-axis deflection mapped to 0–15 (0 = center/stopped)
-- `x_direction`: 0 = forward, 1 = reverse
-- `y_speed`: Joystick Y-axis deflection mapped to 0–15 (0 = center/stopped)
-- `y_direction`: 0 = left, 1 = right
-- Speed increases with distance from joystick center on each axis
-- Byte 8 padded with 0x00
+- Joystick signed value (-127 to +127) converted to speed (0–15) and direction
+- Dead zone: abs(val) ≤ 8 → speed = 0, no packet sent
+- `motor_id`: 1 = X axis (forward/reverse), 2 = Y axis (left/right)
+- `direction`: 0 = forward/left, 1 = reverse/right
+- Send rate limited to every 880ms (`JOY_POLL_MS`)
 
-**Example packet:**
-```
-415A0102 01010208000401 ... 5942
-```
-*(x_speed=8 forward, y_speed=4 right)*
+**Example packets (X=speed 8 forward, Y=speed 4 right):**
+AZ12 1 1 8 0 YB   ← Motor 1: speed=8 forward
+AZ12 1 2 4 1 YB   ← Motor 2: speed=4 right
 
 ---
 
 ### Message Type 12 — Subsystem Status Request
 
-Sent to Adrian to request a status update from the system.
+Sent to Adrian to request a system status update.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          |
-|---------------|--------------|---------------|-----------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         |
-| Min Value     | 12           | 1             | 2               |
-| Max Value     | 12           | 1             | 2               |
-| Example       | 12           | 1             | 2               |
+| Field         | sender | receiver | type |
+|---------------|--------|----------|------|
+| Variable Name | sender_subsys | receiver_subsys | T_STATUS |
+| Variable Type | char   | char     | char |
+| Value         | `1`    | `2`      | `C`  |
 
 **Notes:**
 - No additional data needed — Adrian handles routing the status check
 - Sent when user requests a system status check via HMI
 
 **Example packet:**
-```
-415A0102 0C0102000000 ... 5942
-```
+AZ12CYB
 
 ---
 
 ### Message Type 14 — Error Acknowledgement
 
-Sent to Adrian in response to a Type 14 error alert. Confirms the HMI received
-and displayed the error. Error codes are still being defined by the team.
+Sent to Adrian immediately after displaying a received error alert.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4     |
-|---------------|--------------|---------------|-----------------|------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | error_code |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | int8_t     |
-| Min Value     | 10           | 1             | 2               | 0          |
-| Max Value     | 10           | 1             | 2               | 64         |
-| Example       | 10           | 1             | 2               | 0          |
+| Field         | sender | receiver | type | error_code  |
+|---------------|--------|----------|------|-------------|
+| Variable Name | sender_subsys | receiver_subsys | T_ERROR_ACK | error_code |
+| Variable Type | char   | char     | char | char (0–64) |
+| Min Value     | `1`    | `2`      | `E`  | `0`         |
+| Max Value     | `1`    | `2`      | `E`  | `64`        |
+| Example       | `1`    | `2`      | `E`  | `5`         |
 
 **Notes:**
-- Sent immediately after displaying a received Type 14 error
 - `error_code` echoes back the code received — full error decode table TBD with team
+- Sent immediately after displaying the error on screen
 
 **Example packet:**
-```
-415A0102 0A010200000000 ... 5942
-```
+AZ12E5YB
 
 ---
 
-### Message Type 67 — Button Pressed (Joystick Click-In)
+### Message Type 67 — Button Press (Joystick Click-In)
 
-Sent to Adrian when the user clicks in either joystick. Carries the current
-toggle state so Adrian can act on it directly.
+Sent to Adrian when either joystick click-in button is pressed. HMI tracks
+toggle state and sends current value on each press.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4        | Byte 5       |
-|---------------|--------------|---------------|-----------------|---------------|--------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | button_number | button_state |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t       | uint8_t      |
-| Min Value     | 0x43         | 1             | 2               | 1             | 0            |
-| Max Value     | 0x43         | 1             | 2               | 2             | 1            |
-| Example       | 0x43         | 1             | 2               | 1             | 1            |
+| Field         | sender | receiver | type  | button_num | button_state |
+|---------------|--------|----------|-------|------------|--------------|
+| Variable Name | sender_subsys | receiver_subsys | T_BUTTON | button_number | button_state |
+| Variable Type | char   | char     | char  | char       | char         |
+| Min Value     | `1`    | `2`      | `43`  | `1`        | `0`          |
+| Max Value     | `1`    | `2`      | `43`  | `2`        | `1`          |
+| Example       | `1`    | `2`      | `43`  | `1`        | `1`          |
 
 **Notes:**
 - `button_number`: 1 = Joystick 1 click-in, 2 = Joystick 2 click-in
-- `button_state`: 0 = off, 1 = on — HMI tracks state and sends current value on press
+- `button_state`: 0 = off, 1 = on — HMI owns toggle state, sends current value
+- Type uses two-char `43` to avoid collision with Type 12 `C`
+- Joystick 1 also supports double-click (menu toggle) and long press
 
-**Example packet:**
-```
-// Button 1 ON:
-415A0102 430102010100 ... 5942
-
-// Button 1 OFF:
-415A0102 430102010000 ... 5942
-```
+**Example packets:**
+AZ124311YB   ← Button 1 ON
+AZ124310YB   ← Button 1 OFF
 
 ---
 
 ## Messages Received
 
-All messages I receive come directly from Adrian (Subsystem 2).
+All messages I receive come from Adrian (Subsystem 2) over ESP-NOW.
 
 ---
 
@@ -147,106 +184,138 @@ All messages I receive come directly from Adrian (Subsystem 2).
 
 Forwarded to me by Adrian from Jacob. I display current motor state on screen.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4   | Byte 5      | Byte 6          |
-|---------------|--------------|---------------|-----------------|----------|-------------|-----------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | motor_id | motor_speed | motor_direction |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t  | int8_t      | int8_t          |
-| Min Value     | 2            | 2             | 1               | 1        | 0           | 0               |
-| Max Value     | 2            | 2             | 1               | 3        | 15          | 1               |
-| Example       | 2            | 2             | 1               | 2        | 8           | 0               |
+| Field         | sender | receiver | type | motor_id | motor_speed | motor_direction |
+|---------------|--------|----------|------|----------|-------------|-----------------|
+| Variable Name | sender_subsys | receiver_subsys | T_MOTOR_INFO | motor_id | motor_speed | motor_direction |
+| Variable Type | char   | char     | char | char     | char        | char            |
+| Min Value     | `2`    | `1`      | `2`  | `1`      | `0`         | `0`             |
+| Max Value     | `2`    | `1`      | `2`  | `3`      | `15`        | `1`             |
+| Example       | `2`    | `1`      | `2`  | `2`      | `8`         | `0`             |
 
 **Example packet:**
-```
-415A0201 020201020800 ... 5942
-```
+AZ212280YB   ← Motor 2, speed 8, forward
 
 ---
 
 ### Message Type 3 — Sensor Value Display
 
-Forwarded to me by Adrian. I display this sensor reading on screen.
+Forwarded to me by Adrian. Format varies by originating subsystem.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4        | Byte 5             | Byte 6             |
-|---------------|--------------|---------------|-----------------|---------------|--------------------|--------------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | sensor_number | sensor_value_upper | sensor_value_lower |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t       | uint8_t            | uint8_t            |
-| Min Value     | 3            | 2             | 1               | 1             | 0                  | 0                  |
-| Max Value     | 3            | 2             | 1               | 3             | 255                | 255                |
-| Example       | 3            | 2             | 1               | 1             | 0x01               | 0x2C               |
+#### From Mo (Subsystem 6) — Light Sensor / From Sam M (Subsystem 5) — Temperature
+
+| Field         | sender | receiver | type | sensor_num | value_upper | value_lower |
+|---------------|--------|----------|------|------------|-------------|-------------|
+| Variable Type | char   | char     | char | char       | uint8_t     | uint8_t     |
+| Min Value     | `2`    | `1`      | `3`  | `1`        | 0           | 0           |
+| Max Value     | `2`    | `1`      | `3`  | `6`        | 255         | 255         |
+| Example       | `2`    | `1`      | `3`  | `1`        | 0x01        | 0x2C        |
 
 **Notes:**
-- Reconstruct full value: `sensor_value = (sensor_value_upper << 8) | sensor_value_lower`
+- Reconstruct: `value = (value_upper << 8) | value_lower`
 - Example: `(0x01 << 8) | 0x2C = 300`
+- Sam M temperature value is in Celsius
+
+#### From Andrew (Subsystem 3) — IMU Yaw/Pitch/Roll
+
+Data field is a comma-separated ASCII string:
+
+| Field         | sender | receiver | type | data          |
+|---------------|--------|----------|------|---------------|
+| Variable Type | char   | char     | char | ASCII string  |
+| Example       | `2`    | `1`      | `3`  | `NE,4,-30`    |
+
+**Notes:**
+- Format: `yaw,pitch,roll`
+- `yaw` = compass direction string (e.g. `N`, `NE`, `SW`)
+- `pitch`, `roll` = signed integer degrees, range -180 to 180
+
+**Example packets:**
+AZ21310012CYB    ← Light/Temp: sensor 1, value 300
+AZ213NE,4,-30YB  ← IMU: yaw=NE, pitch=4, roll=-30
+
+---
+
+### Message Type 10 — Subsystem Error Alert
+
+Forwarded to me by Adrian. I display the error and send a Type 14 ack back.
+
+| Field         | sender | receiver | type | error_code | sender_num |
+|---------------|--------|----------|------|------------|------------|
+| Variable Type | char   | char     | char | char       | char       |
+| Min Value     | `2`    | `1`      | `A`  | `0`        | `1`        |
+| Max Value     | `2`    | `1`      | `A`  | `64`       | `6`        |
+| Example       | `2`    | `1`      | `A`  | `5`        | `4`        |
+
+**Notes:**
+- `sender_num` = subsystem that originated the error (e.g. `4` = Jacob)
+- Upon receipt: display error on screen, then immediately send Type 14 ack to Adrian
 
 **Example packet:**
-```
-415A0201 03020101012C ... 5942
-```
+AZ21A54YB   ← Error code 5 from Jacob
 
 ---
 
 ### Message Type 12 — Subsystem Status Response
 
-Sent to me by Adrian containing a status code to display.
+Sent to me by Adrian in response to my Type 12 request.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4 |
-|---------------|--------------|---------------|-----------------|--------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | code   |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t|
-| Min Value     | 12           | 2             | 1               | 0      |
-| Max Value     | 12           | 2             | 1               | 15     |
-| Example       | 12           | 2             | 1               | 3      |
+| Field         | sender | receiver | type | status_code |
+|---------------|--------|----------|------|-------------|
+| Variable Type | char   | char     | char | char        |
+| Min Value     | `2`    | `1`      | `C`  | `0`         |
+| Max Value     | `2`    | `1`      | `C`  | `15`        |
+| Example       | `2`    | `1`      | `C`  | `3`         |
 
 **Example packet:**
-```
-415A0201 0C020103000000 ... 5942
-```
+AZ21C3YB
 
 ---
 
-### Message Type 14 — Subsystem Error Alert
+### Message Type 13 — Status Forwarded
 
-Forwarded to me by Adrian. I display the error on screen and send an
-acknowledgement back to Adrian.
+Forwarded to me by Adrian with status from another subsystem.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4     | Byte 5     |
-|---------------|--------------|---------------|-----------------|------------|------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | error_code | sender_num |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | int8_t     | uint8_t    |
-| Min Value     | 10           | 2             | 1               | 0          | 1          |
-| Max Value     | 10           | 2             | 1               | 64         | 6          |
-| Example       | 10           | 2             | 1               | 10         | 4          |
-
-**Notes:**
-- `sender_num` identifies which subsystem originated the error (e.g. 4 = Jacob)
-- Upon receipt, display error then immediately send a Type 14 ack back to Adrian
+| Field         | sender | receiver | type | sender_num | status_code |
+|---------------|--------|----------|------|------------|-------------|
+| Variable Type | char   | char     | char | char       | char        |
+| Min Value     | `2`    | `1`      | `D`  | `1`        | `0`         |
+| Max Value     | `2`    | `1`      | `D`  | `6`        | `15`        |
+| Example       | `2`    | `1`      | `D`  | `4`        | `5`         |
 
 **Example packet:**
-```
-415A0201 0A02010A04000000 ... 5942
-```
+AZ21D45YB   ← Status from Jacob, code 5
 
 ---
 
 ### Message Type 15 — Subsystem Status Response
 
-Forwarded to me by Adrian. I display subsystem status on screen.
+Forwarded to me by Adrian from another subsystem.
 
-| Field         | Byte 1       | Byte 2        | Byte 3          | Byte 4     | Byte 5      |
-|---------------|--------------|---------------|-----------------|------------|-------------|
-| Variable Name | message_type | sender_subsys | receiver_subsys | sender_num | status_code |
-| Variable Type | uint8_t      | uint8_t       | uint8_t         | uint8_t    | int8_t      |
-| Min Value     | 13           | 2             | 1               | 1          | 0           |
-| Max Value     | 13           | 2             | 1               | 6          | 10          |
-| Example       | 13           | 2             | 1               | 4          | 5           |
+| Field         | sender | receiver | type | sender_num | status_code |
+|---------------|--------|----------|------|------------|-------------|
+| Variable Type | char   | char     | char | char       | char        |
+| Min Value     | `2`    | `1`      | `F`  | `1`        | `0`         |
+| Max Value     | `2`    | `1`      | `F`  | `6`        | `10`        |
+| Example       | `2`    | `1`      | `F`  | `4`        | `5`         |
 
 **Notes:**
-- `sender_num` identifies which subsystem sent the status (e.g. 4 = Jacob)
-- `status_code` meaning to be confirmed with team
+- `sender_num` identifies which subsystem sent the status (e.g. `4` = Jacob)
+- Type 15 encoded as `F` (0x0F) confirmed from protocol.py
 
 **Example packet:**
-```
-415A0201 0D020104050000 ... 5942
-```
+AZ21F45YB   ← Status response from Jacob, code 5
 
-The software of this API download is available [*here*](pending.pdf), and the Zip folder of the project [*here*](ending.zip).
+---
+
+## Valid Full Packet Reference
+
+| Field  | Prefix | Sender | Receiver | Type Char | Data     | Suffix |
+|--------|--------|--------|----------|-----------|----------|--------|
+| Value  | `AZ`   | `1`–`6`| `1`–`6`  | See table | Variable | `YB`   |
+
+- All fields are ASCII characters
+- Type 67 uses two-char type `43` to avoid collision with Type 12 `C`
+- Variable length — no padding required
+
+The software zip folder for this project can be found [*here*](HMI_SUBSYSTEM.zip)
+
