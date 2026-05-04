@@ -11,17 +11,17 @@ as part of<br>
 for<br>
 <font size= "5"> Team 308 </font><br>
 
-**Submission: Mar, 5, 2026**
+**Submission: May, 4, 2026**
 </center>
 
 ## Introduction
 
-* **Currently at the Final Stage for the individual data sheet, please see each section for new updates**
+* This is a project formed out of the reqirements listed in EGR 314 Spring 2026. The tast was to make a reaserch/exploratory vessal to help collect data of a given envitement. We decided to underwater, although this prototype does not go underwater the sensors are dirrected to basic underwater data collection. 
 
 ### Project Summary
 
-* This needs to be updated to reflect <ins>your version</ins> of the team project, so when shared not via the team's report, the reader gets an idea of the direction of the project and how your work will contribute to the overall success.
-* Add context that ties into the link to your [team report.](https://egr314-s-2026-308.github.io/)
+* We are a team designing a underwater reaserch drone. My main conponet was a wireless controller that serves as a way for the user to see the sensor values from the sub but also to navigate the sub. 
+* Team link [team report.](https://egr314-s-2026-308.github.io/)
 
 ### My Contribution
 
