@@ -11,3 +11,6 @@ title: Appendix - Main Page
 * [Power Budget](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/03-Power-Budget/Power-Budget/)
 * [Example 01 (Need to remove/hide before review!)](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/04-Examples-to-Remove/basic-markdown-examples/)
 * [Example 02 (Need to remove/hide before review!)](https://embedded-systems-design.github.io/EGR314DataSheetTemplate/Appendix/04-Examples-to-Remove/charts/)
+
+
+3D model for final product [here](base.STL). 

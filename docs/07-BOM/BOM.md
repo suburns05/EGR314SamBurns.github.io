@@ -17,3 +17,8 @@ As you can see, the text can be difficult to read without opening the image.
 ## Resouce
 
 The Bill of Material as a PDF download is available [*here*](EGR_314.pdf), and Excel File [here](egr314_BOM.xlsx). See my order request file [fere](EGR-314-Purchase-Request-2026-DIGI-KEY.xlsx) 
+
+
+## Final Notes
+
+Next time get 2-3x what you would need. If you have the buget, use it. Do not make the same mistake I did. I assumed that the lab/shop would have some of my parts, however if everyone thinks that, it is very likely that those supplies go out quick. I had to make parts that were way to big to my design and make it work. Its good practice to get good at soldering surface mount parts. Howeve I would avoid the headache and get what you need and then some. 

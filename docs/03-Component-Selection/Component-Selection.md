@@ -78,3 +78,7 @@ I choose option 3 due to being largest screen. This will help a lot to show real
     | Meets surface mount constraint of project |
 
 **Rationale:** A clock oscillator is easier ... -->
+
+## Final Notes
+
+I didn't really change any of the major componets. However I either read the datasheet wrong or our regulator was simply not good. Half of our team had breakout board powersupplies due to this simple error that is apparent on all of our boards. For future refference I would pick a requlator that had a larger headroom and also a larger footprint. I think my issue was I some how limited my outgoing current, I got 3.3 v however it would boot cycle if I program it. The OLED and Joysticks were great, 100% recommend using them again. 

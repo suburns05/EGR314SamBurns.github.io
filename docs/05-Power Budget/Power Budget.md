@@ -16,3 +16,7 @@ This is just a rough draft, I intend to finalize this as we get closer to closin
 ## Resouces
 
 The power budget as a PDF download is available [*here*](powerBudget.pdf), and a Microsoft Excel Sheet [*here*](PowerBudgetSamBurns.xlsx).
+
+## Final Notes: 
+
+I still believe that this sheet it accurate. However as stated before the Power regulator issue, once corrected would effect this page due to having a far more robust regulator to ensure stable and reliable power.

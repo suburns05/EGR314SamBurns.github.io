@@ -1,5 +1,4 @@
-Here you go, clean copy-paste ready:
-markdown---
+---
 title: API
 ---
 
@@ -8,34 +7,17 @@ title: API
 My role is the HMI subsystem. I allow the user to control the project via two
 joysticks and two click-in buttons. I display sensor data and system status updates
 on screen. My subsystem communicates with Adrian (Subsystem 2) directly over
-**ESP-NOW** (primary), with wired **UART** as a fallback. I am not physically
-in the daisy chain — all my communication goes to and from Adrian only.
+ESP-NOW (primary), with wired UART as a fallback. I am not physically
+in the daisy chain — all my communication goes to and from Adrian only. We had initally utalized MQTT, however I decided to go with ESP-NOW because it utalized lower power and had lower draw on the system as a whole. I also did not want to fight with all the networks that were likely in the inovation showcase. Our code can switch over to MQTT by adjusting a few quick lines in the config folder, however as with the mentioned issues we weren't able to get it fully working.
 
 Joystick 2 is used internally for on-screen menu navigation and does not generate
 any messages unless the click-in button is pressed.
-
-### Hardware Pin Reference
-
-| Function        | Pin      |
-|-----------------|----------|
-| UART TX         | GPIO 37  |
-| UART RX         | GPIO 36  |
-| OLED SCL        | GPIO 18  |
-| OLED SDA        | GPIO 17  |
-| Joystick 1 X    | GPIO 6   |
-| Joystick 1 Y    | GPIO 6   |
-| Joystick 1 Btn  | GPIO 14  |
-| Joystick 2 X    | GPIO 4   |
-| Joystick 2 Y    | GPIO 5   |
-| Joystick 2 Btn  | GPIO 13  |
-| LED (activity)  | GPIO 35  |
-| LED (alert)     | GPIO 36  |
 
 ---
 
 ## Packet Format
 
-All packets are **ASCII strings** in the following format:
+All packets are ASCII strings in the following format:
 AZ + sender + receiver + type_char + data + YB
 
 | Field    | Value   | Notes                                                        |
@@ -78,7 +60,7 @@ AZ + sender + receiver + type_char + data + YB
 
 ## Messages Sent
 
-All messages I send go directly to Adrian (Subsystem 2) over ESP-NOW.
+All messages I send go directly to Adrian (Subsystem 2) over ESP-NOW (private wifi network).
 
 ---
 
@@ -319,3 +301,6 @@ AZ21F45YB   ← Status response from Jacob, code 5
 
 The software zip folder for this project can be found [*here*](HMI_SUBSYSTEM.zip)
 
+## Final Notes 
+
+I would recomend confirming with your team all the different methods or coding and decoding you plan on doing with your measages. AI has a tendancy of adding advanced processes without telling you and can cause conflict between team members code. Make sure that you and your teammates update the whole team if anyone adjusts their expected measages.
