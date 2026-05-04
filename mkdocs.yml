@@ -4,7 +4,10 @@ repo_url: https://github.com/suburns05/EGR314SamBurns.github.io
 edit_uri: edit/main/docs/
 theme:
   name: material
-  custom_dir: custom_theme/
+  custom_dir: custom_theme/partials
+
+
+
   palette:
     primary: purple
     accent: indigo
@@ -14,6 +17,7 @@ theme:
   favicon: static/logo314.png
 
   features:
+    -navigation.tabs.overflow
     - navigation.tabs
     - navigation.tabs.sticky
     - toc.follow    
@@ -66,3 +70,17 @@ extra:
     - icon: fontawesome/regular/file-code
       link: /2026_spring
       name: 2023 Site    
+
+nav:
+  - Home: index.md
+  - Requirements: 01-Requirements/Requirements.md
+  - Block Diagram: 02-Block-Diagram/Block-Diagram.md
+  - Component Selection: 03-Component-Selection/Component-Selection.md
+  - Microcontroller Selection: 04-Microcontroller-Selection/Microcontroller-Selection.md
+  - Power Budget: 05-Power Budget/Power Budget.md
+  - Schematic: 06-Schematic/schematic.md
+  - BOM: 07-BOM/BOM.md
+  - PCB: 08-PCB/pcb.md
+  - API: 09-API/API.md
+  - Reflection: 10-Reflection/Reflection.md
+  - Appendix: Appendix/index.md
