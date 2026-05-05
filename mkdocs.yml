@@ -69,7 +69,7 @@ extra:
   social:
     - icon: fontawesome/regular/file-code
       link: /2026_spring
-      name: 2023 Site    
+      name: 2026 Site    
 
 nav:
   - Home: index.md
@@ -83,4 +83,6 @@ nav:
   - PCB: 08-PCB/pcb.md
   - API: 09-API/API.md
   - Reflection: 10-Reflection/Reflection.md
+  - Version 2.0: 11-Version 2.0/Version 2.0.md
+  - Resources: 12-Resources/Resources.md
   - Appendix: Appendix/index.md
