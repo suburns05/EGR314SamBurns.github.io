@@ -18,13 +18,13 @@ The schematic as a PDF download is available [*here*](color.pdf), the Gerber Zip
 
 ## Final Look 
 
-![build](top.png){style width:"350" height:"300;"}
+![build](top.jpg){style width:"350" height:"300;"}
 **Figure ##:** Top view of completed project.
 
-![power_supply](regulator.png){style width:"350" height:"300;"}
+![power_supply](regulator.jpg){style width:"350" height:"300;"}
 **Figure ##:** the external power regulator to help stabalize power.
 
-![bottom](back.png){style width:"350" height:"300;"}
+![bottom](back.jpg){style width:"350" height:"300;"}
 **Figure ##:** Bottom view of completed project.
 
 ## Final Notes
